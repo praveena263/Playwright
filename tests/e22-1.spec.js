@@ -20,16 +20,14 @@ test('@Client App login', async ({ page }) => {
          break;
       }
    }
- 
+   await page.waitForLoadState('networkidle');
    await page.locator("[routerlink*='cart']").click();
-   //await page.pause();
  
-   await page.locator("div li").first({timeout:5000})//.waitFor();
-   const bool = await page.locator("h3:has-text('zara coat 3')").isVisible();
-   //await expect(page.bool).toBeTruthy();
-   await page.locator("text=Checkout").click();
+   await page.locator("div li").first({timeout:5000})
+   await page.locator("h3:has-text('zara coat 3')").isVisible();
+   await page.getByText("Checkout").click();
  
-   await page.locator("[placeholder*='Country']").type("ind");
+   await page.locator("[placeholder*='Country']").fill("ind");
  
    const dropdown = page.locator(".ta-results");
    await dropdown.waitFor();
