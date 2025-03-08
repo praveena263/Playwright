@@ -15,5 +15,3 @@ steps:
   displayName: 'Install Playwright browsers'
 - script: npx playwright test
   displayName: 'Run Playwright tests'
-  env:
-    CI: 'true'
