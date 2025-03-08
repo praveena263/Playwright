@@ -15,3 +15,7 @@ steps:
   displayName: 'Install Playwright browsers'
 - script: npx playwright test
   displayName: 'Run Playwright tests'
+  env:
+    CI: 'true'
+- publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
+  artifact: Results
