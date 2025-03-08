@@ -3,6 +3,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+container: mcr.microsoft.com/playwright:v1.51.0-noble
 
 steps:
 - task: NodeTool@0
@@ -11,8 +12,6 @@ steps:
   displayName: 'Install Node.js'
 - script: npm ci
   displayName: 'npm ci'
-- script: npx playwright install --with-deps
-  displayName: 'Install Playwright browsers'
 - script: npx playwright test
   displayName: 'Run Playwright tests'
   env:
