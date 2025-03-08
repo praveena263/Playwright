@@ -19,3 +19,4 @@ steps:
     CI: 'true'
 - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
   artifact: Results
+  condition: succeededOrFailed()
