@@ -3,7 +3,6 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-# container: mcr.microsoft.com/playwright:v1.51.0-noble
 strategy:
   matrix:
     chromium-1:
@@ -45,8 +44,6 @@ steps:
   displayName: 'Install Playwright browsers'
 - script: npx playwright test --project=$(project) --shard=$(shard)
   displayName: 'Run Playwright tests'
-# - script: npx playwright test
-#   displayName: 'Run Playwright tests'
   env:
     CI: 'true'
 - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
