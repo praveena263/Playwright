@@ -32,7 +32,7 @@ test.beforeAll(async({browser})=>{
     await logIn.click();
     await page.waitForLoadState('networkidle');
     await context.storageState({path:'state.json'})
-    await browser.newContext()
+    await browser.newContext();
     webContext=await browser.newContext({staroageState:'state.json'})
 })
 test("@Client App login", async () => {
@@ -51,7 +51,7 @@ test("@Client App login", async () => {
 });
 //below test is not working but code is rite
 test('Place order', async () => {
- const page=await webContext.newPage()
+ const page=await webContext.newPage();
    const productName = "zara coat 3";
    const products =await page.locator(".card-body");
    const titles = await page.locator("h5").allTextContents();
