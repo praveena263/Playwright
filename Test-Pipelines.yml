@@ -7,11 +7,8 @@ resources:
       source: praveena263.deploy_pipeline
       trigger: true  # Ensures this pipeline runs after the upstream completes
 
-pool:
-  vmImage: ubuntu-latest
 container: mcr.microsoft.com/playwright:v1.48.2-noble
 
-# ✅ Make sure stages start at the right indentation level
 stages:
   - stage: Smoke
     jobs:
@@ -27,43 +24,43 @@ stages:
         steps:
           - script: echo "Executing Cypress Tests"
           - script: echo "Completed Cypress Tests - Passed"
-       
+
   - stage: Playwright
     dependsOn: Cypress
     jobs:
       - job: Playwright_Tests
         steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '18'
-          displayName: 'Install Node.js'
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18'
+            displayName: 'Install Node.js'
 
-        - script: npm ci
-          displayName: 'npm ci'
+          - script: npm ci
+            displayName: 'npm ci'
 
-        - script: npx playwright test
-          displayName: 'Run Playwright tests'
-          env:
-            CI: 'true'
+          - script: npx playwright test
+            displayName: 'Run Playwright tests'
+            env:
+              CI: 'true'
 
-        - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
-          artifact: Results
-          condition: succeededOrFailed()
+          - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
+            artifact: Results
+            condition: succeededOrFailed()
 
-        - task: PublishTestResults@2
-          displayName: 'Publish Junit test results'
-          inputs:
-            searchFolder: 'playwright-report'  # Ensure correct folder
-            testResultsFormat: 'JUnit'
-            testResultsFiles: 'e2e-junit-report.xml'
-            mergeTestResults: true
-            failTaskOnFailedTests: true
-            testRunTitle: 'Playwright JUnit Report'
-          condition: succeededOrFailed()
+          - task: PublishTestResults@2
+            displayName: 'Publish Junit test results'
+            inputs:
+              searchFolder: 'playwright-report'
+              testResultsFormat: 'JUnit'
+              testResultsFiles: 'e2e-junit-report.xml'
+              mergeTestResults: true
+              failTaskOnFailedTests: true
+              testRunTitle: 'Playwright JUnit Report'
+            condition: succeededOrFailed()
 
-        - task: PublishPipelineArtifact@1
-          inputs:
-            targetPath: $(System.DefaultWorkingDirectory)/playwright-report  # Use full path
-            artifact: playwright-report
-            publishLocation: 'pipeline'
-          condition: succeededOrFailed()
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)/playwright-report
+              artifact: playwright-report
+              publishLocation: 'pipeline'
+            condition: succeededOrFailed()
