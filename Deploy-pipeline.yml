@@ -1,3 +1,7 @@
+resources:
+  pipelines:
+    - pipeline: build-pipeline-upstream
+      source: praveena263.Playwright
 pool:
   vmImage: ubuntu-latest
 container: mcr.microsoft.com/playwright:v1.48.2-noble
