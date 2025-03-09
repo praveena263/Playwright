@@ -1,5 +1,6 @@
 trigger:
 - main
+- Praveena/*
 
 pool:
   vmImage: ubuntu-latest
