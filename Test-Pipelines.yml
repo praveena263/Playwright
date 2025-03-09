@@ -2,6 +2,7 @@ resources:
   pipelines:
     - pipeline: deploy-pipeline-upstream
       source: praveena263.deploy_pipeline
+      trigger: true
 
 pool:
   vmImage: ubuntu-latest
