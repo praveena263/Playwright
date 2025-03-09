@@ -33,7 +33,7 @@ class APIUtils {
     // const orderId = orderResponseJson.orders[0];
     // this.response.orderId = orderId;
     // return this.response.orderId;
-    this.response.orderId = orderResponseJson.orders[0];
+    this.response.orderId = orderResponseJson.orders[1];
     return this.response.orderId;
   }
 }
