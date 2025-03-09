@@ -28,7 +28,7 @@ stages:
           - script: echo "Completed Cypress Tests - Passed"
 
   - stage: Playwright
-    dependsOn: Cypress
+    dependsOn: Smoke
     jobs:
       - job: Playwright_Tests
         container: mcr.microsoft.com/playwright:v1.48.2-noble
