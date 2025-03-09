@@ -1,0 +1,11 @@
+pool:
+  vmImage: ubuntu-latest
+container: mcr.microsoft.com/playwright:v1.48.2-noble
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18'
+  displayName: 'Install Node.js'
+- script: npm ci
+  displayName: 'Deploying Application'
