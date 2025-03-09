@@ -24,7 +24,7 @@ steps:
   inputs:
     searchFolder: 'test-results'
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'test-results/junit-report.xml'
+    testResultsFiles: 'e2e-junit-report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
     testRunTitle: 'Playwright JUnit Report'
