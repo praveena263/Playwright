@@ -16,6 +16,7 @@ test.beforeAll(async () => {
   const loginResponseJson = await loginResponse.json();
   token = loginResponseJson.token;
   //console.log(token);
+  // added new feature
 });
 test("@Client App login", async ({ page }) => {
   page.addInitScript((value) => {
