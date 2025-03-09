@@ -1,43 +1,69 @@
-trigger: none  # Disables automatic CI trigger for the downstream pipeline
-pr: none  # Prevents PR triggers from affecting the downstream pipeline
+trigger: none  # Disable automatic trigger for this pipeline
+pr: none  # Prevent PR triggers from affecting this pipeline
+
 resources:
   pipelines:
     - pipeline: deploy-pipeline-upstream
       source: praveena263.deploy_pipeline
-      trigger: true
-
-pool:
-  vmImage: ubuntu-latest
-container: mcr.microsoft.com/playwright:v1.48.2-noble
+      trigger: true  # Ensures this pipeline runs after the upstream completes
 
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18'
-  displayName: 'Install Node.js'
-- script: npm ci
-  displayName: 'npm ci'
-- script: npx playwright test
-  displayName: 'Run Playwright tests'
-  env:
-    CI: 'true'
-- publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
-  artifact: Results
-  condition: succeededOrFailed()
-- task: PublishTestResults@2
-  displayName: 'Publish Junit test results'
-  inputs:
-    searchFolder: 'test-results'
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'e2e-junit-report.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: true
-    testRunTitle: 'Playwright JUnit Report'
-  condition: succeededOrFailed()
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: playwright-report
-    artifact: playwright-report
-    publishLocation: 'pipeline'
-  condition: succeededOrFailed()
+
+stages:
+  - stage: Smoke
+    jobs:
+      - job: Smoke_Testing
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
+        steps:
+          - script: echo "Executing Smoke Tests"
+          - script: echo "Completed Smoke Test - passed"
+
+  - stage: Cypress
+    dependsOn: Smoke
+    jobs:
+      - job: Cypress_Tests
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
+        steps:
+          - script: echo "Executing Cypress Tests"
+          - script: echo "Completed Cypress Tests - Passed"
+
+  - stage: Playwright
+    dependsOn: Smoke
+    jobs:
+      - job: Playwright_Tests
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '18'
+            displayName: 'Install Node.js'
+
+          - script: npm ci
+            displayName: 'npm ci'
+
+          - script: npx playwright test
+            displayName: 'Run Playwright tests'
+            env:
+              CI: 'true'
+
+          - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
+            artifact: Results
+            condition: succeededOrFailed()
+
+          - task: PublishTestResults@2
+            displayName: 'Publish Junit test results'
+            inputs:
+              searchFolder: 'playwright-report'
+              testResultsFormat: 'JUnit'
+              testResultsFiles: 'e2e-junit-report.xml'
+              mergeTestResults: true
+              failTaskOnFailedTests: true
+              testRunTitle: 'Playwright JUnit Report'
+            condition: succeededOrFailed()
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: $(System.DefaultWorkingDirectory)/playwright-report
+              artifact: playwright-report
+              publishLocation: 'pipeline'
+            condition: succeededOrFailed()
