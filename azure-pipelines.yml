@@ -19,3 +19,13 @@ steps:
 - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
   artifact: Results
   condition: succeededOrFailed()
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  inputs:
+    searchFolder: 'test-results'
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'e2e-junit-results.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+    testRunTitle: 'My End-To-End Tests'
+  condition: succeededOrFailed()
