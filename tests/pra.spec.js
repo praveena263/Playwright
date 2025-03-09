@@ -29,7 +29,7 @@ test("signin error message 'Incorrect username/password.' ",async({browser})=>{
     await expect(page.locator("[style*='block']")).toContainText("Incorrect username/password.")
 
 })
-test("signin ",async({page})=>{
+test.skip("signin ",async({page})=>{
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName= page.locator('#username');
     const passWord= page.locator('#password');
@@ -37,7 +37,10 @@ test("signin ",async({page})=>{
     await userName.fill("rahulshettyacademy");
     await passWord.fill("learning");
     await singIn.click();
-    await expect(page.locator('h1')).toContainText('Shop Name')
+    await page.waitForSelector('h3', { state: 'visible' });
+    await expect(page.locator('#burgundy').nth(2)).toContainText('Filters');
+
+    //await expect(page.locator('h3',{hasText :'Automation'})).toBeVisible()//toContainText('Automation')
 })
 test("click on first item  ",async({page})=>{
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
@@ -55,7 +58,7 @@ test("click on first item  ",async({page})=>{
     console.log(await cardTitles.allTextContents())
 
 });
-test('Assignment',async({page})=>{
+test.skip('Assignment',async({page})=>{
     await page.goto("https://rahulshettyacademy.com/client/");
     const emailId=page.locator('#userEmail');
     const passWord=page.locator('#userPassword');

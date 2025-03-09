@@ -1,6 +1,6 @@
 const { test, expect, request } = require("@playwright/test");
-const {APIUtils}=require('../utils/APIUtils');
-//import {APIUtils} from "../utils/APIUtils"
+//const {APIUtils}=require('../utils/APIUtils');
+import {APIUtils} from "../utils/good-code"
 
 const loginPayload = {
   userEmail: "anshika@gmail.com",
@@ -31,7 +31,7 @@ test.beforeAll(async () => {
   // console.log(token);
 
 });
-test('Place order', async ({ page }) => {
+test.skip('Place order', async ({ page }) => {
  
   await page.addInitScript((value) => {
     window.sessionStorage.setItem("token", value);

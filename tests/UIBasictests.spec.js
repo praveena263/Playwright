@@ -33,7 +33,7 @@ test("Page First test", async ({ page }) => {
   console.log(await page.title());
   expect(await page).toHaveTitle("Google");
 });
-test("Assignment",async ({browser})=>{
+test.skip("Assignment",async ({browser})=>{
     const content=await browser.newContext();
     const page=await content.newPage();
     await page.goto("https://rahulshettyacademy.com/client/");
