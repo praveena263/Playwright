@@ -20,12 +20,12 @@ steps:
   artifact: Results
   condition: succeededOrFailed()
 - task: PublishTestResults@2
-  displayName: 'Publish test results'
+  displayName: 'Publish Junit test results'
   inputs:
     searchFolder: 'test-results'
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'e2e-junit-results.xml'
+    testResultsFiles: 'test-results/junit-report.xml'
     mergeTestResults: true
     failTaskOnFailedTests: true
-    testRunTitle: 'My End-To-End Tests'
+    testRunTitle: 'Playwright JUnit Report'
   condition: succeededOrFailed()
