@@ -1,3 +1,5 @@
+trigger: none  # Disables automatic CI trigger for the downstream pipeline
+pr: none  # Prevents PR triggers from affecting the downstream pipeline
 resources:
   pipelines:
     - pipeline: build-pipeline-upstream
