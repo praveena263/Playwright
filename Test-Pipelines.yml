@@ -1,10 +1,11 @@
-trigger: none  # Disables automatic CI trigger for the downstream pipeline
-pr: none  # Prevents PR triggers from affecting the downstream pipeline
+trigger: none  # Disable automatic trigger for this pipeline
+pr: none  # Prevent PR triggers from affecting this pipeline
+
 resources:
   pipelines:
     - pipeline: deploy-pipeline-upstream
       source: praveena263.deploy_pipeline
-      trigger: true
+      trigger: true  # Ensures this pipeline runs after the upstream completes
 
 pool:
   vmImage: ubuntu-latest
@@ -26,7 +27,6 @@ stages:
         - script: echo "Executing Cypress Tests"
         - script: echo "Completed Cypress Tests - Passed"
        
-
 - stage: Playwright
   dependsOn: Cypress
   jobs:
@@ -36,28 +36,33 @@ stages:
         inputs:
           versionSpec: '18'
         displayName: 'Install Node.js'
+
       - script: npm ci
         displayName: 'npm ci'
+
       - script: npx playwright test
         displayName: 'Run Playwright tests'
         env:
           CI: 'true'
+
       - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
         artifact: Results
         condition: succeededOrFailed()
+
       - task: PublishTestResults@2
         displayName: 'Publish Junit test results'
         inputs:
-          searchFolder: 'test-results'
+          searchFolder: 'playwright-report'  # Ensure correct folder
           testResultsFormat: 'JUnit'
           testResultsFiles: 'e2e-junit-report.xml'
           mergeTestResults: true
           failTaskOnFailedTests: true
           testRunTitle: 'Playwright JUnit Report'
         condition: succeededOrFailed()
+
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: playwright-report
+          targetPath: $(System.DefaultWorkingDirectory)/playwright-report  # Use full path
           artifact: playwright-report
           publishLocation: 'pipeline'
         condition: succeededOrFailed()
