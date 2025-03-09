@@ -7,12 +7,13 @@ resources:
       source: praveena263.deploy_pipeline
       trigger: true  # Ensures this pipeline runs after the upstream completes
 
-container: mcr.microsoft.com/playwright:v1.48.2-noble
+
 
 stages:
   - stage: Smoke
     jobs:
       - job: Smoke_Testing
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
         steps:
           - script: echo "Executing Smoke Tests"
           - script: echo "Completed Smoke Test - passed"
@@ -21,6 +22,7 @@ stages:
     dependsOn: Smoke
     jobs:
       - job: Cypress_Tests
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
         steps:
           - script: echo "Executing Cypress Tests"
           - script: echo "Completed Cypress Tests - Passed"
@@ -29,6 +31,7 @@ stages:
     dependsOn: Cypress
     jobs:
       - job: Playwright_Tests
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
         steps:
           - task: NodeTool@0
             inputs:
