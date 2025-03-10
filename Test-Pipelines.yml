@@ -59,6 +59,7 @@ stages:
               mergeTestResults: true
               failTaskOnFailedTests: true
               testRunTitle: 'Playwright JUnit Report'
+              publishLocation: 'pipeline'
             condition: succeededOrFailed()
 
           - task: PublishPipelineArtifact@1
