@@ -68,7 +68,7 @@ stages:
               publishLocation: 'pipeline'
             condition: succeededOrFailed()
   
-  - stage: Playwright-Matrix-Sharded
+  - stage: Playwright_Matrix_Sharded
     dependsOn: Smoke
     jobs:
       - job: Playwright_Tests
