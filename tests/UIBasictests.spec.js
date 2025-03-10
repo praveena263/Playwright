@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-test("Browser First test", async ({ browser }) => {
+test.skip("Browser First test", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");

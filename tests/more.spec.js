@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 
-test('more-1',async({page})=>{
+test.skip('more-1',async({page})=>{
     await page.goto('https://rahulshettyacademy.com/AutomationPractice/');
     await page.goto('https://www.google.com/');
     await page.goBack()

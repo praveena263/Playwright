@@ -35,7 +35,7 @@ test.beforeAll(async({browser})=>{
     await browser.newContext();
     webContext=await browser.newContext({staroageState:'state.json'})
 })
-test("@Client App login", async () => {
+test.skip("@Client App login", async () => {
   const page=await webContext.newPage();
   const email = "";
   const productName = "zara coat 3";

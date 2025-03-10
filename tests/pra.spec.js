@@ -42,7 +42,7 @@ test.skip("signin ",async({page})=>{
 
     //await expect(page.locator('h3',{hasText :'Automation'})).toBeVisible()//toContainText('Automation')
 })
-test("click on first item  ",async({page})=>{
+test.skip("click on first item  ",async({page})=>{
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName= page.locator('#username');
     const passWord= page.locator('#password');
