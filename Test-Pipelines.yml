@@ -67,3 +67,37 @@ stages:
               artifact: playwright-report
               publishLocation: 'pipeline'
             condition: succeededOrFailed()
+  
+  - stage: Playwright-Matrix-Sharded
+    dependsOn: Smoke
+    jobs:
+      - job: Playwright_Tests
+        container: mcr.microsoft.com/playwright:v1.48.2-noble
+        strategy:
+          matrix:
+            chromium-1:
+              project: chromium
+              shard: 1/2
+            chromium-2:
+              project: chromium
+              shard: 1/2
+            firefox-1:
+              project: firefox
+              shard: 1/2
+            firefox-2:
+              project: firefox
+              shard: 1/2
+            webkit-1:
+              project: webkit
+              shard: 1/2
+            webkit-2:
+              project: webkit
+              shard: 1/2
+        steps:
+          - script: npm ci
+            displayName: 'npm ci'
+
+          - script: npx playwright test --project=$(project) --shard=$(shard)
+            displayName: 'Run Playwright tests'
+            env:
+              CI: 'true'
