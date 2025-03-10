@@ -102,5 +102,5 @@ stages:
             env:
               CI: 'true'
           - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
-            artifact: $(project)_$(shard)_Results
+            artifact: $(project)_Results
             condition: succeededOrFailed()
