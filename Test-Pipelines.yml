@@ -47,7 +47,7 @@ stages:
               CI: 'true'
 
           - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
-            artifact: Results
+            artifact: All_Results
             condition: succeededOrFailed()
 
           - task: PublishTestResults@2
@@ -102,5 +102,5 @@ stages:
             env:
               CI: 'true'
           - publish: $(System.DefaultWorkingDirectory)/playwright-report/index.html
-            artifact: Results
+            artifact: $(project)/$(shard)/Results
             condition: succeededOrFailed()
